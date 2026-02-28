@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAPL — Trading Comps</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0f1117;
+      --ink-light: #4a4f5e;
+      --ink-faint: #8a8fa0;
+      --paper: #f8f7f4;
+      --paper-2: #eeecea;
+      --accent: #1a4fd6;
+      --accent-bg: #e8edfc;
+      --subject-bg: #fffbea;
+      --subject-border: #f0c040;
+      --green: #0d7a4e;
+      --red: #c0392b;
+      --border: #d8d5d0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 13px; }
+    .page { max-width: 1200px; margin: 0 auto; padding: 32px 40px 56px; }
+
+    /* Header */
+    .header { border-bottom: 2px solid var(--ink); padding-bottom: 16px; margin-bottom: 24px; }
+    .title { font-family: 'DM Serif Display', serif; font-size: 32px; letter-spacing: -0.02em; }
+    .subtitle { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
+
+    /* Section */
+    h2 { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+          color: var(--ink-faint); margin: 28px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+    .note { font-size: 11px; color: var(--ink-faint); font-style: italic; margin-bottom: 12px; margin-top: -8px; }
+
+    /* Comps table */
+    .comps-table { width: 100%; border-collapse: collapse; overflow-x: auto; display: block; }
+    .comps-table th, .comps-table td {
+      padding: 7px 12px;
+      text-align: right;
+      white-space: nowrap;
+      font-family: 'DM Mono', monospace;
+      font-size: 11.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .comps-table th {
+      background: var(--paper-2);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      position: sticky;
+      top: 0;
+    }
+    .comps-table td.metric-label {
+      text-align: left;
+      color: var(--ink-light);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      width: 180px;
+    }
+
+    /* Subject column highlight */
+    .subject-col {
+      background: var(--subject-bg);
+      border-left: 2px solid var(--subject-border);
+      border-right: 2px solid var(--subject-border);
+      font-weight: 600;
+    }
+    th.subject-col { background: #fff8d6; }
+
+    /* Section break rows */
+    .section-break td {
+      background: var(--paper-2);
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      text-align: left;
+      padding: 5px 12px;
+    }
+
+    /* Color */
+    td.green { color: var(--green); }
+    td.red   { color: var(--red); }
+    td.implied-val { color: var(--accent); font-weight: 600; }
+
+    /* Footer */
+    .footer { margin-top: 40px; padding-top: 12px; border-top: 1px solid var(--border);
+               font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--ink-faint); }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="title">Apple Inc. (AAPL) — Trading Comparables</div>
+    <div class="subtitle">★ = Subject company &nbsp;·&nbsp; LTM = Last Twelve Months &nbsp;·&nbsp; As of February 28, 2026</div>
+  </div>
+
+  <h2>Valuation & Financials</h2>
+  <table class="comps-table">
+    <thead>
+      <tr>
+        <th style="text-align:left">Metric</th>
+        <th class="subject-col">★ AAPL</th><th class="">MSFT</th><th class="">GOOG</th><th class="">AMZN</th><th class="">META</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class='metric-label'>Price</td><td class="subject-col">$264.18</td><td class="">$392.74</td><td class="">$311.43</td><td class="">$210.00</td><td class="">$648.18</td></tr><tr><td class='metric-label'>Market Cap</td><td class="subject-col">$3.9T</td><td class="">$2.9T</td><td class="">$3.8T</td><td class="">$2.3T</td><td class="">$1.6T</td></tr><tr><td class='metric-label'>P/E (Trailing)</td><td class="subject-col">33.4x</td><td class="">24.6x</td><td class="">28.8x</td><td class="">29.3x</td><td class="">27.6x</td></tr><tr><td class='metric-label'>P/E (Forward)</td><td class="subject-col">28.4x</td><td class="">20.8x</td><td class="">23.2x</td><td class="">22.5x</td><td class="">18.1x</td></tr><tr><td class='metric-label'>EV / EBITDA</td><td class="subject-col">25.5x</td><td class="">16.8x</td><td class="">24.7x</td><td class="">15.8x</td><td class="">16.1x</td></tr><tr><td class='metric-label'>EV / Revenue</td><td class="subject-col">9.0x</td><td class="">9.7x</td><td class="">9.2x</td><td class="">3.2x</td><td class="">8.2x</td></tr><tr><td class='metric-label'>P / Sales</td><td class="subject-col">8.9x</td><td class="">9.6x</td><td class="">9.4x</td><td class="">3.1x</td><td class="">8.2x</td></tr><tr><td class='metric-label'>P / Book</td><td class="subject-col">44.0x</td><td class="">7.5x</td><td class="">9.1x</td><td class="">5.5x</td><td class="">7.5x</td></tr><tr class="section-break"><td colspan="6">── Financials ──</td></tr><tr><td class='metric-label'>Revenue (LTM)</td><td class="subject-col">$416.2B</td><td class="">$281.7B</td><td class="">$402.8B</td><td class="">$716.9B</td><td class="">$201.0B</td></tr><tr><td class='metric-label'>Revenue Growth</td><td class="subject-col green">▲ 6.4%</td><td class=" green">▲ 14.9%</td><td class=" green">▲ 15.1%</td><td class=" green">▲ 12.4%</td><td class=" green">▲ 22.2%</td></tr><tr><td class='metric-label'>EBITDA (LTM)</td><td class="subject-col">$144.7B</td><td class="">$160.2B</td><td class="">$180.7B</td><td class="">$165.3B</td><td class="">$105.7B</td></tr><tr><td class='metric-label'>Free Cash Flow</td><td class="subject-col">$98.8B</td><td class="">$71.6B</td><td class="">$73.3B</td><td class="">$7.7B</td><td class="">$46.1B</td></tr><tr><td class='metric-label'>Gross Margin</td><td class="subject-col">46.9%</td><td class="">68.8%</td><td class="">59.7%</td><td class="">50.3%</td><td class="">82.0%</td></tr><tr><td class='metric-label'>Net Margin</td><td class="subject-col">26.9%</td><td class="">36.1%</td><td class="">32.8%</td><td class="">10.8%</td><td class="">30.1%</td></tr><tr class="section-break"><td colspan="6">── Per Share & Other ──</td></tr><tr><td class='metric-label'>EPS (TTM)</td><td class="subject-col">$7.90</td><td class="">$15.98</td><td class="">$10.81</td><td class="">$7.16</td><td class="">$23.46</td></tr><tr><td class='metric-label'>EPS (Forward)</td><td class="subject-col">$9.30</td><td class="">$18.84</td><td class="">$13.42</td><td class="">$9.34</td><td class="">$35.88</td></tr><tr><td class='metric-label'>Beta</td><td class="subject-col">1.107</td><td class="">1.084</td><td class="">1.086</td><td class="">1.385</td><td class="">1.284</td></tr><tr><td class='metric-label'>Dividend Yield</td><td class="subject-col">39.0%</td><td class="">93.0%</td><td class="">27.0%</td><td class="">—</td><td class="">32.0%</td></tr>
+    </tbody>
+  </table>
+
+  
+    <h2>Implied Valuation (Peer Median Multiples → AAPL)</h2>
+    <p class="note">Peer median multiples applied to AAPL's own financials. For context only — not a price target.</p>
+    <table class="comps-table">
+        <thead><tr><th>Method</th><th>Peer Median Multiple</th><th>Implied Value</th></tr></thead>
+        <tbody>
+        <tr>
+            <td>EV / Revenue → implied mkt cap</td>
+            <td>8.7x</td>
+            <td class="implied-val">$3620.6B market cap</td>
+        </tr>
+        <tr>
+            <td>EV / EBITDA → implied mkt cap</td>
+            <td>16.5x</td>
+            <td class="implied-val">$2381.1B market cap</td>
+        </tr>
+        <tr>
+            <td>P / Sales → implied mkt cap</td>
+            <td>8.8x</td>
+            <td class="implied-val">$3662.2B market cap</td>
+        </tr>
+        <tr>
+            <td>P / E (trailing) → implied mkt cap</td>
+            <td>28.2x</td>
+            <td class="implied-val">$3274.4B market cap</td>
+        </tr></tbody>
+    </table>
+
+  <div class="footer">
+    Data: yFinance / SEC EDGAR &nbsp;·&nbsp; Generated February 28, 2026 &nbsp;·&nbsp;
+    Multiples based on latest available annual filings. Not investment advice.
+  </div>
+
+</div>
+</body>
+</html>

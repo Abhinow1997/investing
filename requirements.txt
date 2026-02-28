@@ -1,11 +1,21 @@
-requests
-beautifulsoup4
-html2text
-yfinance>=0.2.31
-openpyxl>=3.1.0
+# Free Stack — Daloopa replacement dependencies
+# pip install -r requirements.txt
+
+# Financial data
+yfinance>=0.2.36
+
+# HTTP requests (SEC EDGAR)
+requests>=2.31.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Report generation (keep from original repo)
 python-docx>=1.1.0
-docxtpl>=0.16.0
-docxcompose>=1.4.0
-matplotlib>=3.8.0
-fredapi>=0.5.0
-markdown>=3.5.0
+openpyxl>=3.1.0
+jinja2>=3.1.0
+matplotlib>=3.7.0

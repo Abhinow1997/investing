@@ -1,323 +1,250 @@
-# Design System
-
-Shared formatting and styling reference for all skills. Building block skills output styled HTML directly using these conventions. Investment deliverables (Word, Excel, PDF decks) follow the same design system in their rendered format.
-
-## Number Formatting
-
-| Type | Format | Example |
-|------|--------|---------|
-| Currency (large) | `$X.Xbn` or `$X,XXXmm` | `$95.4bn`, `$2,345mm` |
-| Currency (small) | `$X.XX` or `$X,XXX` | `$6.08`, `$1,234` |
-| Percentages | One decimal + `%` suffix | `42.3%` |
-| Multiples | One decimal + `x` suffix | `8.5x EV/EBITDA` |
-| Growth rates | Signed + `%` suffix + context | `+12.3% YoY` |
-| Basis points | Signed + `bps` | `+150bps` |
-| Share counts | `X.XXbn` or `X,XXXmm` shares | `15.33bn shares` |
-
-Right-align all numbers in tables. Never display raw unformatted numbers.
-
-## Analytical Density
-
-Every data point should include three layers where possible:
-
-1. **The data point itself** — with Daloopa citation
-2. **Context** — vs. prior period, vs. peers, vs. guidance, vs. consensus
-3. **Implication** — what it suggests (margin expansion, deceleration, thesis risk)
-
-Example:
-> Revenue: [$95.4bn](https://daloopa.com/src/123) (+6.1% YoY, beat consensus by +2.3%) — acceleration from +4.8% last quarter driven by iPhone 16 cycle
-
-Avoid single-metric tables. Combine related metrics: Revenue + Revenue Growth + Gross Margin in one table.
-
-## Table Conventions
-
-- **Columns** = time periods (left to right, chronological)
-- **Rows** = metrics (grouped by category: P&L, margins, per-share, balance sheet)
-- Include YoY growth rates as sub-rows in italics
-- Highlight beats/misses with notation: `$1.52 (beat +3.2%)`
-- Source citation row at bottom of every table: `Source: Daloopa (company filings)`
-- Group related metrics together — no single-metric tables
-
-## Commentary Blocks
-
-After every major data table, include a 2-3 sentence interpretive commentary block:
-
-1. **What the data shows** — trend, inflection, anomaly
-2. **Why it matters** — competitive positioning, estimate revision risk, thesis confirmation/challenge
-3. **What to watch** — upcoming catalyst, guidance change, peer divergence
-4. **What could go wrong** — risks to the trend, bear case interpretation, sustainability concerns
-
-## Analyst's Perspective
-
-All analysis is written from the perspective of a **long/short equity investor** conducting fundamental research. This means:
-
-**Be critical, not promotional.** Management narratives are marketing until proven by the data. When results look good, ask: Is this sustainable? Is it one-time? Is the market already pricing it in? When trends look bad, ask: Is this cyclical or structural? Is management acknowledging the problem or hiding behind adjusted metrics?
-
-**Challenge the numbers.** Look for quality-of-earnings issues: revenue pulled forward, unsustainable margin drivers (e.g., under-investing in R&D, favorable one-time items), channel stuffing signals, aggressive accounting changes. A beat isn't bullish if it's low-quality.
-
-**Be honest about valuation.** Don't anchor to the current stock price and work backwards. If a DCF implies 50% upside, say so — but also say what has to go right. If a stock trades at 40x earnings with decelerating growth, say that's expensive. The analysis should help the reader decide whether to own the stock, not confirm whatever they already believe.
-
-**Flag red flags explicitly.** When you see concerning patterns — deteriorating cash conversion, growing gap between GAAP and non-GAAP, rising DSOs, management selling stock, guidance cuts disguised as "conservatism," buybacks at all-time highs — call them out clearly.
-
-**Assign conviction.** Don't hide behind balanced language when the data points in a clear direction. If the bear case is more likely, say so. If growth is clearly decelerating, don't soften it with "remains resilient." Use precise language: "decelerating," "deteriorating," "unsustainable," "mispriced" when warranted.
-
-**Separate signal from noise.** Not every data point matters equally. Highlight what changes the thesis and deprioritize what doesn't. A 10bps margin fluctuation is noise; a 300bps margin decline is signal.
-
-## Report Structure
-
-- **Header**: Company name, ticker, date
-- **Executive summary first**: 3-5 key takeaways, each one sentence
-- **Daloopa citations on every financial figure** — no uncited numbers
-- **"Data sourced from Daloopa" footer** on every report
-- Section ordering follows each skill's defined structure
-
-## Color Palette
-
-Consistent across charts, PDF, deck, and model:
-
-| Role | Color | Hex |
-|------|-------|-----|
-| Primary | Navy | `#1B2A4A` |
-| Secondary | Steel Blue | `#4A6FA5` |
-| Accent | Gold | `#C5A55A` |
-| Positive | Forest Green | `#27AE60` |
-| Negative | Crimson | `#C0392B` |
-| Light Gray | — | `#F8F9FA` |
-| Mid Gray | — | `#E9ECEF` |
-| Dark Gray | — | `#6C757D` |
-| Near Black | — | `#343A40` |
-
-Chart color sequence: Navy, Steel Blue, Gold, then grays.
-
-## Chart Styling
-
-All charts follow these rules:
-- Grid lines: light gray (`#E9ECEF`), no box border
-- Labels: 11px, gray (`#6C757D`)
-- Title: 14px bold, navy
-- Source citation below every chart: `Source: Daloopa (company filings)`
-- Adjacent commentary block required for every chart
-
-Standard chart types:
-1. **Time-series** — Revenue, margins, EPS, KPIs over quarters. Bar + line combo.
-2. **Waterfall** — Bridge from base to target value (revenue walk, value creation, EPS bridge)
-3. **Football field** — Horizontal range bars comparing valuation methodologies
-4. **Pie** — Segment revenue/profit breakdown, geographic mix
-5. **Scenario bar** — Bull/base/bear comparison
-6. **DCF sensitivity** — WACC vs terminal growth heatmap
-
-## Output Formats
-
-All skills must produce professional deliverables suitable for institutional distribution:
-
-| Skill Type | Primary Output | Secondary | Notes |
-|------------|---------------|-----------|-------|
-| Building block analysis | .html | — | Styled HTML with design system CSS inlined; opens in any browser |
-| Research notes | .docx | — | Word for editability |
-| Financial models | .xlsx | — | Excel for interactivity |
-| Pitch decks | .pdf | .html (source) | HTML is working format; PDF is the deliverable |
-| Comp sheet models | .xlsx | — | Excel for interactivity |
-
-**Never deliver raw markdown as a final output.** Building block skills write styled HTML directly using the HTML Report Template below. The analyst receives HTML, Word, Excel, or slide deck files.
-
-## Typography (Rendered Outputs — HTML, Deck, Docx)
-
-- Primary font: system sans-serif stack (Segoe UI, -apple-system, Arial)
-- Headers: bold, 18-28px, navy (`#1B2A4A`)
-- Body: 12-13px, dark gray (`#343A40`)
-- Table cells: 11px, tabular-nums for number alignment
-- Citations: 8-9px italic
-- Slide content (deck): 11-14px with generous line-height
-
-## HTML Report Template
-
-Building block skills write styled HTML directly using this template. Copy the full template (including all CSS) into every report. Write the analysis as HTML content inside the `<body>` — use `<h1>`, `<h2>`, `<h3>` for headings, `<table>` for data tables, `<blockquote>` for commentary blocks, `<p>` for prose, `<ul>`/`<ol>` for lists, and `<a>` for Daloopa citation links.
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-:root {
-    --navy: #1B2A4A;
-    --steel-blue: #4A6FA5;
-    --gold: #C5A55A;
-    --green: #27AE60;
-    --red: #C0392B;
-    --light-gray: #F8F9FA;
-    --mid-gray: #E9ECEF;
-    --dark-gray: #6C757D;
-    --near-black: #343A40;
-}
-
-@page {
-    size: A4;
-    margin: 20mm 15mm 20mm 15mm;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-    font-size: 12px;
-    line-height: 1.6;
-    color: var(--near-black);
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px 40px;
-}
-
-h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--navy);
-    border-bottom: 3px solid var(--navy);
-    padding-bottom: 8px;
-    margin-top: 0;
-    margin-bottom: 16px;
-}
-
-h2 {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--navy);
-    border-bottom: 1px solid var(--mid-gray);
-    padding-bottom: 4px;
-    margin-top: 24px;
-    margin-bottom: 12px;
-}
-
-h3 {
-    font-size: 14px;
-    font-weight: bold;
-    color: var(--steel-blue);
-    margin-top: 16px;
-    margin-bottom: 8px;
-}
-
-p {
-    margin-bottom: 8px;
-}
-
-a {
-    color: var(--steel-blue);
-    text-decoration: none;
-}
-
-strong {
-    font-weight: 600;
-}
-
-em {
-    font-style: italic;
-    color: var(--dark-gray);
-}
-
-blockquote {
-    border-left: 4px solid var(--steel-blue);
-    background: var(--light-gray);
-    padding: 12px 16px;
-    margin: 12px 0;
-    font-size: 11px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 12px 0;
-    font-size: 11px;
-    font-variant-numeric: tabular-nums;
-}
-
-thead {
-    background: var(--navy);
-    color: white;
-}
-
-th {
-    padding: 8px 10px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-td {
-    padding: 6px 10px;
-    border-bottom: 1px solid var(--mid-gray);
-}
-
-/* Right-align numeric columns (2nd column onward) */
-td:not(:first-child), th:not(:first-child) {
-    text-align: right;
-}
-
-tr:nth-child(even) {
-    background: var(--light-gray);
-}
-
-tr:hover {
-    background: #EDF2F7;
-}
-
-code {
-    background: var(--light-gray);
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-size: 10px;
-}
-
-pre {
-    background: var(--light-gray);
-    padding: 12px;
-    border-radius: 4px;
-    overflow-x: auto;
-    font-size: 10px;
-}
-
-ul, ol {
-    padding-left: 20px;
-    margin-bottom: 8px;
-}
-
-li {
-    margin-bottom: 4px;
-}
-
-hr {
-    border: none;
-    border-top: 1px solid var(--mid-gray);
-    margin: 20px 0;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    margin: 12px 0;
-}
-
-/* Footer */
-.footer {
-    text-align: center;
-    font-size: 9px;
-    color: var(--dark-gray);
-    font-style: italic;
-    margin-top: 24px;
-    padding-top: 8px;
-    border-top: 1px solid var(--mid-gray);
-}
-    </style>
-</head>
-<body>
-
-<!-- Report content goes here: use <h1>, <h2>, <table>, <blockquote>, <p>, <a>, etc. -->
-
-<div class="footer">Data sourced from Daloopa</div>
-</body>
-</html>
+# Data Access Reference
+
+All skills that need financial data should follow this reference.
+Read `design-system.md` for formatting, analytical density, and styling conventions.
+
+---
+
+## Section 1: Primary Data Source
+
+All financial data comes from `recipes/free_client.py`, which wraps
+**yFinance** (market data + financials) and **SEC EDGAR** (filings + XBRL).
+No API keys required for core functionality.
+
+### Import Pattern
+```python
+from recipes.free_client import (
+    discover_companies,       # company info: name, sector, description, exchange
+    discover_company_series,  # list all available metrics for a company
+    get_company_fundamentals, # income statement, balance sheet, cash flow, valuation
+    get_recent_filings,       # SEC filings: 10-K, 10-Q, 8-K, DEF 14A
+)
 ```
+
+### Function Reference
+
+| Operation | Function | Data Source |
+|---|---|---|
+| Look up company by ticker | `discover_companies("TICKER")` | yFinance + SEC EDGAR |
+| List available metrics | `discover_company_series("TICKER")` | yFinance |
+| Pull financial statements | `get_company_fundamentals("TICKER", period="annual")` | yFinance + SEC EDGAR XBRL |
+| Get SEC filings | `get_recent_filings("TICKER", "10-K", limit=3)` | SEC EDGAR |
+
+### Usage Examples
+
+```python
+# 1. Company overview
+company = discover_companies("AAPL")
+# Returns: name, sector, industry, exchange, market_cap, description, website, country
+
+# 2. Check what metrics are available
+series = discover_company_series("AAPL")
+# Returns: available_series (income_statement, balance_sheet, cash_flow, valuation_metrics)
+#          data_available (booleans per section)
+#          periods_available (annual: 4 years, quarterly: 4 quarters)
+
+# 3. Annual financial data
+data = get_company_fundamentals("AAPL", period="annual")
+# data["income_statement"] → revenue, gross_profit, operating_income, net_income, ebitda
+# data["balance_sheet"]    → total_assets, total_liabilities, total_equity, cash, total_debt
+# data["cash_flow"]        → operating_cash_flow, capex, free_cash_flow
+# data["market_data"]      → price, market_cap, pe_ratio, ev_ebitda, ps_ratio, beta, ...
+
+# 4. Quarterly financial data (for earnings analysis)
+data_q = get_company_fundamentals("AAPL", period="quarterly")
+
+# 5. SEC filings with direct URLs
+filings = get_recent_filings("AAPL", "10-K", limit=3)
+# Each item: {"ticker", "cik", "form", "date", "accession", "url"}
+```
+
+### Data Shape
+
+All financial series are returned as `{date_string: integer_value}` dicts:
+
+```python
+data["income_statement"]["revenue"]
+# → {"2024-09-28": 391035000000, "2023-09-30": 383285000000, ...}
+
+# Get the most recent value:
+dates = sorted(data["income_statement"]["revenue"].keys(), reverse=True)
+latest = data["income_statement"]["revenue"][dates[0]]
+
+# Get YoY growth:
+current = data["income_statement"]["revenue"][dates[0]]
+prior   = data["income_statement"]["revenue"][dates[1]]
+growth  = (current - prior) / abs(prior)
+```
+
+### What to do if data is missing
+
+```
+get_company_fundamentals() returns empty section?
+    → Try period="quarterly" instead of "annual"
+    → Call discover_company_series() to verify what is available
+    → Fall back to infra/market_data.py for market-side data (see Section 2)
+    → Write "N/A" in output — never estimate or fabricate figures
+```
+
+---
+
+## Section 2: Market Data
+
+Basic market data (price, multiples, beta) is included in `get_company_fundamentals()`
+under the `market_data` key — no separate call needed.
+
+For historical OHLCV or peer comparisons, use the infra scripts:
+
+| Data Need | How to Get It |
+|---|---|
+| Price, market cap, beta | `data["market_data"]` from `get_company_fundamentals()` |
+| Valuation multiples (P/E, EV/EBITDA, P/S, P/B) | `data["market_data"]` from `get_company_fundamentals()` |
+| Historical OHLCV (1–5 years) | `python infra/market_data.py history TICKER --period 2y` |
+| Peer multiples side-by-side | Loop `get_company_fundamentals()` across each peer ticker |
+| Risk-free rate (DCF/WACC) | `python infra/market_data.py risk-free-rate` |
+
+**Full `market_data` key reference:**
+```python
+mkt = data["market_data"]
+mkt["price"]          # current stock price
+mkt["market_cap"]     # market capitalization (integer)
+mkt["pe_ratio"]       # trailing twelve-month P/E
+mkt["forward_pe"]     # forward P/E
+mkt["ev_ebitda"]      # EV / EBITDA
+mkt["ev_revenue"]     # EV / Revenue
+mkt["ps_ratio"]       # Price / Sales (TTM)
+mkt["pb_ratio"]       # Price / Book
+mkt["beta"]           # market beta
+mkt["dividend_yield"] # decimal (e.g. 0.005 = 0.5%)
+mkt["52w_high"]       # 52-week high
+mkt["52w_low"]        # 52-week low
+mkt["eps_ttm"]        # trailing EPS
+mkt["eps_forward"]    # forward EPS estimate
+```
+
+---
+
+## Section 3: Macro Data (Optional — for DCF/WACC)
+
+Add `FRED_API_KEY` to `.env` to enable live macro data.
+Free key available at: https://fred.stlouisfed.org/docs/api/api_key.html
+
+When `FRED_API_KEY` is present, `get_company_fundamentals()` appends a `macro` key:
+```python
+data["macro"]["risk_free_rate_10y"]  # 10Y Treasury yield (%)
+data["macro"]["federal_funds_rate"]  # Fed Funds Rate (%)
+data["macro"]["cpi_inflation"]       # CPI index level
+data["macro"]["sp500"]               # S&P 500 index level
+```
+
+If `FRED_API_KEY` is not set, use these defaults and note them in output:
+- Risk-free rate: **4.5%**
+- Inflation: **2.5%**
+
+---
+
+## Section 4: SEC Filings
+
+For qualitative analysis — MD&A, risk factors, guidance language, footnotes:
+
+```python
+# Supported form types
+get_recent_filings("AAPL", "10-K",    limit=3)  # Annual report
+get_recent_filings("AAPL", "10-Q",    limit=4)  # Quarterly report
+get_recent_filings("AAPL", "8-K",     limit=5)  # Earnings releases / current reports
+get_recent_filings("AAPL", "DEF 14A", limit=1)  # Proxy statement
+
+# Each result contains a direct SEC URL — use it for citation
+filing["url"]  # → https://www.sec.gov/Archives/edgar/data/{cik}/{accession}/
+```
+
+For keyword search across filings (guidance, risk factors, specific topics):
+```
+https://efts.sec.gov/LATEST/search-index?q="YOUR KEYWORD"&forms=10-K,10-Q
+```
+
+---
+
+## Section 5: Citation Format
+
+Every financial figure in output must be attributed to its source.
+
+**For financial statement figures:**
+```
+$391.0B revenue (Source: SEC EDGAR / yFinance, FY2024)
+```
+
+**For SEC filing references — always link directly:**
+```markdown
+[AAPL 10-K — Nov 2024](https://www.sec.gov/Archives/edgar/data/320193/...)
+```
+The `url` from `get_recent_filings()` provides this link automatically.
+
+**Rules:**
+- Always state the source (yFinance or SEC EDGAR) and the period for key figures
+- Computed values (margins, growth rates) — cite the underlying inputs used
+- If a figure is unavailable, write **N/A** — never guess or interpolate
+- All filing links must point to `sec.gov` — no third-party aggregators
+
+---
+
+## Section 6: Skill Commands → Recipe Scripts
+
+When executing a slash command, run the corresponding recipe script directly.
+All output is saved to the `reports/` directory.
+
+| Slash Command | Script | Output |
+|---|---|---|
+| `/tearsheet TICKER` | `python recipes/tearsheet.py TICKER` | `reports/TICKER_tearsheet.html` |
+| `/comps TICKER` | `python recipes/comps.py TICKER` | `reports/TICKER_comps.html` |
+| `/dcf TICKER` | `python recipes/dcf.py TICKER` | `reports/TICKER_dcf.html` |
+| `/earnings TICKER` | `python recipes/earnings.py TICKER` | `reports/TICKER_earnings.html` |
+| `/capital-allocation TICKER` | `python recipes/capital_allocation.py TICKER` | `reports/TICKER_capital_allocation.html` |
+| `/inflection TICKER` | `python recipes/inflection.py TICKER` | `reports/TICKER_inflection.html` |
+| `/comp-sheet TICKER` | `python recipes/comp_sheet.py TICKER` | `reports/TICKER_comp_sheet.xlsx` |
+| `/research-note TICKER` | `python recipes/research_note.py TICKER` | `reports/TICKER_research_note.docx` |
+| `/build-model TICKER` | `python recipes/build_model.py TICKER` | `reports/TICKER_model.xlsx` |
+
+---
+
+## Section 7: Infrastructure Tools
+
+These scripts are available for all skills to use:
+
+### Charts
+```bash
+python infra/chart_generator.py {chart_type} --data '{json}' --output path.png
+```
+Available types: `time-series`, `waterfall`, `football-field`, `pie`, `scenario-bar`, `dcf-sensitivity`
+
+### Projections
+```bash
+python infra/projection_engine.py --context input.json --output projections.json
+```
+
+### Word / Excel / PDF Rendering
+```bash
+python infra/docx_renderer.py --template templates/research_note.docx --context context.json --output output.docx
+python infra/excel_builder.py  --context context.json --output output.xlsx
+python infra/comp_builder.py   --context context.json --output output.xlsx
+python infra/pdf_renderer.py   --context context.json --output output.pdf
+python infra/deck_renderer.py  --context context.json --output output.pdf
+```
+
+### Context Diffs (for /update)
+```bash
+python infra/report_differ.py --old old.json --new new.json --output diff.json
+```
+
+---
+
+## Section 8: Troubleshooting
+
+| Error | Cause | Fix |
+|---|---|---|
+| `ValueError: cannot convert NaN to integer` | yFinance returns NaN for missing fields | Use `_safe_int()` from `free_client.py` |
+| `HTTPError: 404 on SEC EDGAR` | Bad endpoint path | Check `SEC_USER_AGENT` is set in `.env` |
+| `get_recent_filings` returns `[]` | CIK lookup failed | Verify ticker spelling; ETFs have no CIK |
+| `market_data` fields are `None` | Non-US or OTC stock | Use `.get()` with a default; note N/A in output |
+| `financials` DataFrame empty | Delisted or very small company | Note data unavailable; skip that section |
+| FRED data not loading | Key not found in environment | Run `python -c "from dotenv import load_dotenv; load_dotenv(); import os; print(os.getenv('FRED_API_KEY'))"` |

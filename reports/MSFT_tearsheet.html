@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MSFT — Tearsheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0f1117;
+      --ink-light: #4a4f5e;
+      --ink-faint: #8a8fa0;
+      --paper: #f8f7f4;
+      --paper-2: #eeecea;
+      --accent: #1a4fd6;
+      --accent-light: #e8edfc;
+      --green: #0d7a4e;
+      --green-bg: #e6f4ee;
+      --red: #c0392b;
+      --red-bg: #fcecea;
+      --border: #d8d5d0;
+      --rule: 1px solid var(--border);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* ── Page layout ── */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 40px 48px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 24px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .company-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 38px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .company-sub {
+      margin-top: 6px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      background: var(--paper-2);
+      border: var(--rule);
+      color: var(--ink-light);
+    }
+
+    .badge.ticker {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    .price-block {
+      text-align: right;
+    }
+
+    .price-main {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+    }
+
+    .price-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--ink-faint);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Description ── */
+    .description {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      line-height: 1.65;
+      margin-bottom: 24px;
+      max-width: 820px;
+      font-style: italic;
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: var(--rule);
+    }
+
+    /* ── KPI grid ── */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: var(--rule);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .kpi-cell {
+      background: white;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .kpi-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .kpi-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    .kpi-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      color: var(--ink-faint);
+    }
+
+    .kpi-sub.up { color: var(--green); }
+    .kpi-sub.down { color: var(--red); }
+
+    /* ── Two-column body ── */
+    .body-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    /* ── Tables ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table tr {
+      border-bottom: var(--rule);
+    }
+
+    .data-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .data-table td {
+      padding: 7px 4px;
+      font-size: 12px;
+    }
+
+    .data-table td:first-child {
+      color: var(--ink-light);
+      width: 55%;
+    }
+
+    .data-table td:last-child {
+      font-family: 'DM Mono', monospace;
+      font-size: 11.5px;
+      text-align: right;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ── Sparkline charts ── */
+    .chart-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .chart-card {
+      background: white;
+      border: var(--rule);
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+
+    .chart-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 10px;
+    }
+
+    canvas.sparkline {
+      width: 100%;
+      height: 60px;
+      display: block;
+    }
+
+    .chart-latest {
+      margin-top: 6px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 32px;
+      padding-top: 14px;
+      border-top: var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .filing-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .filing-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid var(--accent-light);
+      border-radius: 4px;
+      background: var(--accent-light);
+    }
+
+    .section-card {
+      background: white;
+      border: var(--rule);
+      border-radius: 6px;
+      padding: 16px 18px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="company-name">Microsoft Corporation</div>
+      <div class="company-sub">
+        <span class="badge ticker">MSFT</span>
+        <span class="badge">NMS</span>
+        <span class="badge">Technology</span>
+        <span class="badge">Software - Infrastructure</span>
+      </div>
+    </div>
+    <div class="price-block">
+      <div class="price-main">$392.74</div>
+      <div class="price-meta">As of February 28, 2026</div>
+      <div class="price-meta" style="margin-top:6px">
+        52W: $344.79 – $555.45
+      </div>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class='description'>Microsoft Corporation develops and supports software, services, devices, and solutions worldwide. The Productivity and Business Processes segment offers Microsoft 365 commercial, enterprise mobility + security, windows commercial, power BI, exchange, sharepoint, Microsoft teams, security and compliance, and copilot; Mi...</div>
+
+  <!-- KPI Strip -->
+  <div class="kpi-strip">
+    <div class="kpi-cell">
+      <div class="kpi-label">Market Cap</div>
+      <div class="kpi-value">$2.92T</div>
+      <div class="kpi-sub">Market Cap</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Revenue (TTM)</div>
+      <div class="kpi-value">$281.72B</div>
+      <div class="kpi-sub up">▲ 14.9% YoY</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">EBITDA</div>
+      <div class="kpi-value">$160.16B</div>
+      <div class="kpi-sub">Latest Annual</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Free Cash Flow</div>
+      <div class="kpi-value">$71.61B</div>
+      <div class="kpi-sub">Latest Annual</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Net Debt</div>
+      <div class="kpi-value">$30.35B</div>
+      <div class="kpi-sub">Debt minus Cash</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Beta</div>
+      <div class="kpi-value">1.08</div>
+      <div class="kpi-sub">Market sensitivity</div>
+    </div>
+  </div>
+
+  <!-- Sparkline Charts -->
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="chart-title">Revenue — Annual Trend</div>
+      <canvas class="sparkline" id="rev-chart"></canvas>
+      <div class="chart-latest">$281.72B</div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Net Income — Annual Trend</div>
+      <canvas class="sparkline" id="ni-chart"></canvas>
+      <div class="chart-latest">36.1% net margin</div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Free Cash Flow — Annual Trend</div>
+      <canvas class="sparkline" id="fcf-chart"></canvas>
+      <div class="chart-latest">$71.61B</div>
+    </div>
+  </div>
+
+  <!-- Body: Valuation + Financials -->
+  <div class="body-grid">
+    <div class="section-card">
+      <div class="section-label">Valuation Multiples</div>
+      <table class="data-table">
+        <tr><td>P/E (Trailing)</td><td>24.6x</td></tr>
+        <tr><td>P/E (Forward)</td><td>20.8x</td></tr>
+        <tr><td>EV / EBITDA</td><td>16.8x</td></tr>
+        <tr><td>EV / Revenue</td><td>9.7x</td></tr>
+        <tr><td>Price / Sales</td><td>9.6x</td></tr>
+        <tr><td>Price / Book</td><td>7.5x</td></tr>
+        <tr><td>EPS (TTM)</td><td>$15.98</td></tr>
+        <tr><td>EPS (Forward)</td><td>$18.84</td></tr>
+        <tr><td>Dividend Yield</td><td>93.0%</td></tr>
+      </table>
+    </div>
+
+    <div class="section-card">
+      <div class="section-label">Profitability & Margins</div>
+      <table class="data-table">
+        <tr><td>Revenue (Latest)</td><td>$281.72B</td></tr>
+        <tr><td>Revenue Growth (YoY)</td><td>▲ 14.9%</td></tr>
+        <tr><td>Gross Margin</td><td>68.8%</td></tr>
+        <tr><td>Operating Margin</td><td>45.6%</td></tr>
+        <tr><td>Net Margin</td><td>36.1%</td></tr>
+        <tr><td>EBITDA</td><td>$160.16B</td></tr>
+        <tr><td>Free Cash Flow</td><td>$71.61B</td></tr>
+        <tr><td>Net Debt</td><td>$30.35B</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SEC Filings -->
+  <div class="section-label">Latest SEC Filings</div>
+  <div class="filing-links" style="margin-bottom: 32px;">
+    <a class="filing-link" href="https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/" target="_blank">
+      📄 10-K Annual Report — 2025-07-30
+    </a>
+    <a class="filing-link" href="https://www.sec.gov/Archives/edgar/data/789019/000119312526027207/" target="_blank">
+      📄 10-Q Quarterly Report — 2026-01-28
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>
+      Data: yFinance · SEC EDGAR · Generated February 28, 2026
+    </div>
+    <div>
+      MSFT · NMS · United States ·
+      <a href="https://www.microsoft.com" target="_blank">https://www.microsoft.com</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Sparkline renderer
+  function drawSparkline(canvasId, rawData, color) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || !rawData || rawData.length < 2) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = 60 * dpr;
+    ctx.scale(dpr, dpr);
+    const W = rect.width;
+    const H = 60;
+    const pad = 4;
+    const min = Math.min(...rawData);
+    const max = Math.max(...rawData);
+    const range = max - min || 1;
+    const pts = rawData.map((v, i) => ({
+      x: pad + (i / (rawData.length - 1)) * (W - pad * 2),
+      y: H - pad - ((v - min) / range) * (H - pad * 2)
+    }));
+
+    // Fill gradient
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, color + '30');
+    grad.addColorStop(1, color + '00');
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, H);
+    pts.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.lineTo(pts[pts.length - 1].x, H);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Line
+    ctx.beginPath();
+    pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    // End dot
+    const last = pts[pts.length - 1];
+    ctx.beginPath();
+    ctx.arc(last.x, last.y, 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  window.addEventListener('load', () => {
+    drawSparkline('rev-chart',  [198270000000, 211915000000, 245122000000, 281724000000],    '#1a4fd6');
+    drawSparkline('ni-chart',   [72738000000, 72361000000, 88136000000, 101832000000], '#0d7a4e');
+    drawSparkline('fcf-chart',  [65149000000, 59475000000, 74071000000, 71611000000],        '#7c3aed');
+  });
+</script>
+</body>
+</html>

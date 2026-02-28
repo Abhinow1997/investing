@@ -6,203 +6,269 @@ argument-hint: TICKER
 
 Perform a deep dive into capital allocation for the company specified by the user: $ARGUMENTS
 
-**Before starting, read `../data-access.md` for data access methods and `../design-system.md` for formatting conventions.** Follow the data access detection logic and design system throughout this skill.
+**Before starting, read `../data-access.md` for data access methods and `../design-system.md` for formatting conventions.**
 
-Follow these steps:
+---
+
+## Quick Run
+
+```bash
+venv\Scripts\python.exe recipes\capital_allocation.py AAPL
+```
+
+Output saved to: `reports/{TICKER}_capital_allocation.html`
+
+If you need to extend or customise beyond what the script produces, follow the manual steps below.
+
+---
 
 ## 1. Company Lookup
-Look up the company by ticker. Note the company_id, full name, and latest available quarter.
+
+```python
+from recipes.free_client import discover_companies
+
+company = discover_companies("TICKER")
+# Use: name, sector, industry, exchange
+```
+
+---
 
 ## 2. Market Data
-Get the current stock price, market cap, and shares outstanding for {TICKER} (see ../data-access.md Section 2 for how to source market data in your environment).
-- This is needed to compute yields and per-share metrics
 
-If market data is unavailable, note that market-derived metrics (yields, etc.) cannot be computed and proceed with Daloopa data only.
+```python
+from recipes.free_client import get_company_fundamentals
+
+data_q = get_company_fundamentals("TICKER", period="quarterly")
+mkt = data_q["market_data"]
+
+price             = mkt["price"]
+market_cap        = mkt["market_cap"]
+shares_outstanding = mkt["shares_outstanding"]
+dividend_rate     = mkt["dividend_rate"]     # annual $/share
+payout_ratio      = mkt["payout_ratio"]      # decimal
+```
+
+If `market_cap` is None, note that yield calculations cannot be computed and proceed with available data.
+
+---
 
 ## 3. Capital Allocation Data
-Pull 8 quarters of:
 
-**Share Count & Buybacks:**
-- Diluted shares outstanding
-- Share repurchase amounts (dollars)
-- Shares retired/repurchased (units, if available)
+Pull **8 quarters** of quarterly data:
 
-**Dividends:**
-- Dividends per share
-- Total dividend payments
-- Special dividends (if any)
+```python
+data_q = get_company_fundamentals("TICKER", period="quarterly")
 
-**Cash Flow:**
-- Operating Cash Flow
-- Capital Expenditures
-- Free Cash Flow (compute as OCF - CapEx, label "(calc.)")
-- D&A (for reference)
+cf  = data_q["cash_flow"]
+bs  = data_q["balance_sheet"]
+inc = data_q["income_statement"]
+```
 
-**Balance Sheet:**
-- Cash and equivalents
-- Short-term investments / marketable securities
-- Total debt (short + long term)
-- Net debt (compute as Total Debt - Cash - Investments, label "(calc.)")
+### Cash Flow (from `cf`)
+| Key | What it is |
+|---|---|
+| `cf["operating_cash_flow"]` | Operating Cash Flow |
+| `cf["capex"]` | Capital Expenditures (negative value) |
+| `cf["free_cash_flow"]` | FCF — auto-computed if not reported directly |
+| `cf["share_repurchases"]` | Share buyback $ (negative = cash out) |
+| `cf["dividends_paid"]` | Dividends paid (negative = cash out) |
+| `cf["total_shareholder_return"]` | Abs(buybacks) + Abs(dividends) — auto-computed |
+| `cf["da"]` | Depreciation & Amortization |
 
-**M&A / Investments:**
-- Search for "acquisition", "purchase of business", "investment" in series
-- Pull any available M&A-related series
+### Balance Sheet (from `bs`)
+| Key | What it is |
+|---|---|
+| `bs["cash"]` | Cash & equivalents |
+| `bs["short_term_investments"]` | Marketable securities / short-term investments |
+| `bs["total_debt"]` | Total debt (short + long term) |
+| `bs["total_equity"]` | Stockholders equity |
+
+### Income Statement (from `inc`)
+| Key | What it is |
+|---|---|
+| `inc["revenue"]` | Revenue |
+| `inc["operating_income"]` | Operating Income |
+| `inc["ebitda"]` | EBITDA (if reported) |
+| `inc["rd_expense"]` | R&D Expense |
+| `inc["interest_expense"]` | Interest Expense |
+
+**Data shape reminder** — all series are `{date_string: integer_value}` dicts:
+```python
+dates = sorted(cf["free_cash_flow"].keys(), reverse=True)[:8]
+```
+
+---
 
 ## 4. Compute Capital Allocation Metrics
-Calculate for each quarter where data is available:
 
-**Shareholder Returns:**
-- Total Buyback Amount
-- Total Dividend Amount
-- Total Shareholder Return = Buybacks + Dividends
-- Shareholder Yield = (Buybacks + Dividends) / Market Cap (annualized)
-- Buyback Yield = Buybacks / Market Cap (annualized)
-- Dividend Yield = Dividends / Market Cap (annualized)
+For each of the 8 quarters:
 
-**FCF Deployment:**
-- FCF Payout Ratio = Total Shareholder Return / FCF
-- CapEx as % of Revenue
-- CapEx as % of OCF
+### Shareholder Returns
+```python
+# FCF Yield (annualised — multiply quarterly by 4)
+fcf_yield = (fcf_q * 4) / market_cap
+
+# Shareholder Yield
+shareholder_yield = tsr_q * 4 / market_cap
+
+# FCF Payout Ratio
+fcf_payout = tsr_q / fcf_q
+```
+
+### FCF Deployment
 - FCF Margin = FCF / Revenue
+- CapEx % Revenue = |CapEx| / Revenue
+- CapEx % OCF = |CapEx| / OCF
 
-**Leverage:**
-- Net Debt / EBITDA (if EBITDA available; compute from Operating Income + D&A if needed)
-- Net Debt / Equity
-- Interest Coverage = Operating Income / Interest Expense (if available)
-- Cash as % of Market Cap
+### Leverage
+```python
+# Net Debt
+net_debt = total_debt - cash - short_term_investments
 
-**Share Count Dynamics:**
-- QoQ share count change
-- YoY share count change
-- Implied buyback rate (QoQ % reduction)
-- At current buyback rate, years to retire X% of shares
+# Net Debt / EBITDA — use annual EBITDA for stability
+net_debt_ebitda = net_debt / ebitda_annual
 
-## 5. Qualitative Research
-Search SEC filings for capital allocation strategy and context. Try multiple searches:
-- **Buyback program**: Try "repurchase program", "share repurchase"; fallback to "buyback", "authorization"
-- **Dividend policy**: Try "dividend", "capital return"; fallback to "distribution", "payout"
-- **M&A strategy**: Try "acquisition", "strategic"; fallback to "purchase", "investment"
-- **Capital priorities**: Try "capital allocation", "priorities"; fallback to "deploy", "balance sheet"
-- **Debt management**: Try "debt", "refinance"; fallback to "leverage", "maturity"
+# Interest Coverage
+interest_coverage = operating_income / abs(interest_expense)
+```
+
+### Share Count Dynamics
+```python
+# Implied shares from market cap / price
+shares = market_cap / price
+
+# QoQ / YoY change
+qoq_change = (shares_now - shares_prior_q) / shares_prior_q
+yoy_change = (shares_now - shares_prior_yr) / shares_prior_yr
+```
+
+---
+
+## 5. Qualitative Research — SEC Filings
+
+```python
+from recipes.free_client import get_recent_filings
+
+filings_10k = get_recent_filings("TICKER", "10-K", limit=2)
+filings_10q = get_recent_filings("TICKER", "10-Q", limit=4)
+```
+
+Use EDGAR full-text search for capital allocation language:
+```
+https://efts.sec.gov/LATEST/search-index?q="repurchase program"&forms=10-K,10-Q
+https://efts.sec.gov/LATEST/search-index?q="dividend policy"&forms=10-K,10-Q
+https://efts.sec.gov/LATEST/search-index?q="capital allocation"&forms=10-K,10-Q
+https://efts.sec.gov/LATEST/search-index?q="acquisition"&forms=10-K,10-Q
+```
 
 Extract:
 - Board-authorized buyback programs (remaining authorization amount)
-- Dividend policy (commitment to growth, payout ratio targets)
-- M&A philosophy (bolt-on vs transformational, deal pipeline commentary)
-- Management's stated capital allocation framework and priorities
+- Dividend policy (growth commitment, payout ratio targets)
+- M&A philosophy (bolt-on vs transformational)
+- Management's stated capital allocation priorities
 - Any changes in capital allocation strategy
-- Direct quotes with document citations
+- Direct quotes — cite filing URL: `filing["url"]`
+
+---
 
 ## 6. Historical Analysis & Value Judgment
-Analyze the 8-quarter trend:
+
+Analyse the 8-quarter trend:
+
 - Is buyback activity accelerating or decelerating?
-- Is the company buying back more shares when price is lower (disciplined) or higher (less disciplined)?
-- Dividend growth rate (if applicable)
+- Is the company buying back more shares when price is lower (disciplined) or higher?
+- Dividend growth rate and sustainability
+- FCF payout ratio trend — if >100%, company is funding returns with debt or cash drawdowns — **flag this**
 - Shift between CapEx, buybacks, dividends, and debt repayment over time
-- FCF conversion trend (is more/less of OCF converting to FCF?)
 
 **Honestly assess whether capital allocation is creating or destroying value:**
-- If the company is buying back stock at all-time-high prices with deteriorating fundamentals, call it value destruction — even if EPS looks better from the lower share count.
-- If the company is under-investing in CapEx or R&D to fund buybacks, flag the risk to long-term competitiveness.
-- If FCF payout ratio exceeds 100%, the company is funding returns with debt or cash drawdowns — flag this as unsustainable.
-- Compare the implied return from buybacks (inverse of P/E at purchase prices) to what the company could earn from organic reinvestment or M&A.
+- Buying back stock at all-time-high prices with deteriorating fundamentals → value destruction, call it
+- Under-investing in CapEx or R&D to fund buybacks → flag risk to long-term competitiveness
+- FCF payout ratio >100% → flag as unsustainable
+- Compare implied buyback return (inverse of P/E at purchase price) to organic reinvestment alternatives
+
+---
 
 ## 6.5. Reinvestment Assessment
 
-Assess whether the company is adequately reinvesting in its business or funding returns at the expense of long-term competitiveness.
+Check whether the company is adequately reinvesting or funding returns at the expense of long-term growth.
 
-**Pull reinvestment metrics (8 quarters):**
-- R&D expense (and R&D as % of revenue)
-- Capital Expenditures (and CapEx as % of revenue)
-- Key growth KPIs relevant to the business model (use sector taxonomy):
-  - **SaaS/Cloud**: ARR, net revenue retention, RPO/cRPO, customers >$100K
-  - **Consumer Tech**: DAU/MAU, ARPU, installed base, paid subscribers
-  - **E-commerce/Marketplace**: GMV, take rate, active buyers/sellers
-  - **Retail**: same-store sales, store count, average ticket
-  - **Telecom/Media**: subscribers, churn, ARPU, content spend
-  - **Hardware**: units shipped, ASP, attach rate
-  - **Financial Services**: AUM, NIM, loan growth, fee income ratio
-  - **Pharma/Biotech**: pipeline stage, patient starts, scripts, market share
-  - **Industrials/Energy**: backlog, book-to-bill, utilization, production volumes
+Pull from `inc["rd_expense"]` and `cf["capex"]` across 8 quarters:
+- R&D as % of Revenue trend — declining while buybacks rise is a red flag
+- CapEx as % of Revenue — is infrastructure investment keeping pace with business needs?
 
-**Assess reinvestment adequacy:**
-- Is R&D/revenue trending down while buybacks are increasing? This may indicate the company is funding shareholder returns by underinvesting in innovation.
-- Is CapEx/revenue declining while the business requires sustained infrastructure investment (e.g., cloud, manufacturing, stores)?
-- Are growth KPIs (subscriber adds, customer growth, same-store sales) deteriorating while capital returns are at record levels? This is a red flag — the company may be harvesting rather than growing.
-- Compare R&D intensity and CapEx intensity vs peers (if available from /industry or /comps data). Is the company investing more or less than competitors?
-
-**Value creation vs extraction verdict:**
-- Net assessment: Is the company's capital allocation creating long-term value (reinvesting at high ROIC, buying back cheap stock, growing dividends sustainably) or extracting value (under-investing to fund buybacks at premium valuations, leveraging up for returns)?
-
-## 7. Save Report
-Save to `reports/{TICKER}_capital_allocation.html` using the HTML report template from `../design-system.md`. Write the full analysis as styled HTML with the design system CSS inlined. This is the final deliverable — no intermediate markdown step needed.
-
-Structure the report with these sections:
-
+Use EDGAR keyword search for growth KPIs relevant to the sector (subscribers, ARR, GMV, units, etc.):
 ```
-<h1>{Company Name} ({TICKER}) — Capital Allocation Analysis</h1>
-<p>Generated: {date}</p>
+https://efts.sec.gov/LATEST/search-index?q="active subscribers"&forms=10-K,10-Q
+```
 
-<h2>Summary</h2>
-{2-3 sentences: How does this company deploy its capital? Key takeaways.}
+**Net verdict:** Is this company creating long-term value (reinvesting at high ROIC, buying back cheap, growing dividends sustainably) or extracting value (underinvesting to fund buybacks at premium valuations)?
+
+---
+
+## 7. Report Structure
+
+Save to `reports/{TICKER}_capital_allocation.html` following `../design-system.md`.
+
+```html
+<h1>{Company Name} ({TICKER}) — Capital Allocation Analysis</h1>
+<p>Generated: {date} | Data: yFinance / SEC EDGAR</p>
 
 <h2>Current Snapshot</h2>
 <table>
-| Metric | Value |
-| Market Cap | $XXX |
-| Trailing 4Q FCF | $XXX |
-| FCF Yield | X.X% |
-| Shareholder Yield | X.X% |
-| Net Debt / EBITDA | X.Xx |
-| Remaining Buyback Authorization | $XXX |
+  <!-- Single-column snapshot: Market Cap, FCF, FCF Yield, Shareholder Yield, Net Debt/EBITDA -->
 </table>
 
 <h2>Cash Flow & FCF (8 Quarters)</h2>
 <table>
-| Metric | Q1 | Q2 | ... | Q8 |
-{OCF, CapEx, FCF, FCF Margin % — with Daloopa citations}
+  <!-- OCF, CapEx, FCF, FCF Margin %, CapEx % Revenue -->
 </table>
 
 <h2>Share Repurchases & Dividends (8 Quarters)</h2>
 <table>
-| Metric | Q1 | Q2 | ... | Q8 |
-{Buyback $, Dividends $, Total Return, Share Count — with Daloopa citations}
-</table>
-
-<h2>Shareholder Yield Analysis</h2>
-<table>
-| Metric | Q1 | Q2 | ... | Q8 |
-{Buyback Yield, Div Yield, Total Yield, FCF Payout Ratio}
+  <!-- Buyback $, Dividends $, Total Shareholder Return, TSR % FCF -->
 </table>
 
 <h2>Leverage & Balance Sheet (8 Quarters)</h2>
 <table>
-| Metric | Q1 | Q2 | ... | Q8 |
-{Cash, Debt, Net Debt, Net Debt/EBITDA — with Daloopa citations}
+  <!-- Cash, Short-term Investments, Total Debt, Net Debt, Net Debt/EBITDA -->
 </table>
 
 <h2>Capital Allocation Framework</h2>
-{Management's stated priorities from filings, with document citations}
+<!-- Management's stated priorities from SEC filings with direct links -->
 
 <h2>Reinvestment Assessment</h2>
 <table>
-| Metric | Q1 | Q2 | ... | Q8 |
-{R&D, R&D % Rev, CapEx, CapEx % Rev, key growth KPIs — with Daloopa citations}
+  <!-- R&D, R&D % Rev, CapEx, CapEx % Rev -->
 </table>
-{Analysis: Is the company adequately reinvesting? R&D/CapEx trends vs growth KPI trends. Value creation vs extraction verdict.}
+<!-- Value creation vs extraction verdict -->
 
 <h2>Buyback Discipline Analysis</h2>
-{Analysis of buyback timing vs price, share count reduction trend, authorization remaining}
+<!-- Buyback timing vs price, share count trend, authorization remaining -->
 
 <h2>M&A Activity</h2>
-{Any acquisitions from filings, deal sizes, strategic rationale}
+<!-- Acquisitions from filings, deal sizes, strategic rationale -->
 
 <h2>Key Observations</h2>
-<ul>{3-5 bullet points on capital allocation quality, trends, and implications}</ul>
+<ul>
+  <!-- 3-5 bullets on capital allocation quality, trends, implications -->
+</ul>
 ```
 
-All financial figures must use Daloopa citation format: `<a href="https://daloopa.com/src/{fundamental_id}">$X.XX million</a>`
+**Citation format:**
+```html
+<!-- Financial figures -->
+$23.5B <span class="source">(yFinance / SEC EDGAR, Q3 2024)</span>
 
-Tell the user where the HTML report was saved.
+<!-- Filing links -->
+<a href="{filing['url']}" target="_blank">AAPL 10-Q — Jul 2024</a>
+```
 
-Highlight the key capital allocation story (e.g., "AAPL returned $XX billion to shareholders over the last year, a X.X% shareholder yield, with buybacks accelerating").
+---
+
+## 8. Tell the User
+
+After saving:
+1. Path to the HTML report
+2. Key capital allocation headline: *"{TICKER} returned ${X}B to shareholders over the last year, a X.X% shareholder yield, with buybacks [accelerating/decelerating]"*
+3. Single biggest risk or concern from the analysis

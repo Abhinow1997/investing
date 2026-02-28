@@ -94,6 +94,34 @@ All generated analysis is saved to the `reports/` directory. Reports are gitigno
 - `infra/report_differ.py` — Context JSON diff for update tracking
 - `templates/research_note.docx` — Word template for research notes
 
+## Python Environment
+
+Virtual environment is at `venv/` in the project root.
+
+| Purpose | Command |
+|---|---|
+| Run any recipe | `venv\Scripts\python.exe recipes\tearsheet.py TICKER` |
+| Install a package | `venv\Scripts\pip.exe install package_name` |
+| Check installed packages | `venv\Scripts\pip.exe list` |
+
+**Rule:** Always prefix Python calls with `venv\Scripts\python.exe`. Never use bare `python` or `python3`.
+```
+
+---
+
+## Quick Test in Claude Code
+
+Once you update `CLAUDE.md`, open Claude Code and run:
+```
+/tearsheet AAPL
+```
+
+Claude Code should automatically call:
+```
+venv\Scripts\python.exe recipes\tearsheet.py AAPL
+
+
+
 ## Plugin
 The building block skills (10 analysis skills) are also available as a standalone Claude Code plugin at `../daloopa-plugin/`. The plugin uses MCP + generic market data language (no Python infrastructure required). Use `scripts/sync_plugin.sh` to sync shared skill files to the plugin repo.
 

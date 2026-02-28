@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AAPL — Capital Allocation</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0f1117; --ink-light: #4a4f5e; --ink-faint: #8a8fa0;
+      --paper: #f8f7f4; --paper-2: #eeecea; --accent: #1a4fd6;
+      --green: #0d7a4e; --red: #c0392b; --gold: #c5a55a;
+      --border: #d8d5d0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 13px; }
+    .page { max-width: 1200px; margin: 0 auto; padding: 32px 40px 56px; }
+    .header { border-bottom: 2px solid var(--ink); padding-bottom: 16px; margin-bottom: 28px; }
+    .title { font-family: 'DM Serif Display', serif; font-size: 32px; letter-spacing: -0.02em; }
+    .subtitle { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
+    h2 { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin: 28px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+    .data-table { width: 100%; border-collapse: collapse; display: block; overflow-x: auto; }
+    .data-table th, .data-table td { padding: 7px 12px; text-align: right; white-space: nowrap; font-family: 'DM Mono', monospace; font-size: 11.5px; border-bottom: 1px solid var(--border); }
+    .data-table th { background: var(--paper-2); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-light); }
+    .data-table td.metric-label { text-align: left; color: var(--ink-light); font-family: 'DM Sans', sans-serif; font-size: 12px; min-width: 220px; }
+    tr.highlight td { background: #fffbea; font-weight: 600; }
+    .snapshot-table { width: 340px; border-collapse: collapse; }
+    .snapshot-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .snapshot-table td:first-child { color: var(--ink-light); width: 55%; }
+    .snapshot-table td:last-child { font-family: 'DM Mono', monospace; text-align: right; font-weight: 500; }
+    .filing-link { display: inline-block; margin: 4px 8px 4px 0; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); text-decoration: none; padding: 4px 10px; border: 1px solid var(--accent); border-radius: 4px; }
+    .filing-link:hover { background: var(--accent); color: white; }
+    .footer { margin-top: 40px; padding-top: 12px; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--ink-faint); }
+    .verdict { background: white; border: 1px solid var(--border); border-left: 4px solid var(--gold); border-radius: 4px; padding: 16px 20px; margin: 16px 0; font-size: 13px; line-height: 1.65; color: var(--ink-light); }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="title">Apple Inc. (AAPL) — Capital Allocation</div>
+    <div class="subtitle">Technology · Consumer Electronics · As of February 28, 2026</div>
+  </div>
+
+  <h2>Current Snapshot</h2>
+  <table class="snapshot-table">
+    <tbody>
+        <tr><td>Price</td><td>$264.18</td></tr>
+        <tr><td>Market Cap</td><td>$3.88T</td></tr>
+        <tr><td>Trailing 4Q FCF</td><td>$123.32B</td></tr>
+        <tr><td>FCF Yield</td><td>3.2%</td></tr>
+        <tr><td>Shareholder Yield (4Q)</td><td>2.8%</td></tr>
+        <tr><td>Net Debt</td><td>$23.60B</td></tr>
+        <tr><td>Net Debt / EBITDA</td><td>0.2x</td></tr>
+        <tr><td>Dividend Rate (Annual)</td><td>$1.04</td></tr>
+        <tr><td>Payout Ratio</td><td>13.0%</td></tr>
+        <tr><td>Shares Outstanding</td><td>$14.68B</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Cash Flow & Free Cash Flow (Quarterly)</h2>
+  <table class="data-table">
+    <thead><tr><th class="metric-label">Metric</th><th>2025-12</th><th>2025-09</th><th>2025-06</th><th>2025-03</th><th>2024-12</th></tr></thead>
+    <tbody><tr class=""><td class="metric-label">Operating Cash Flow</td><td>$53.92B</td><td>$29.73B</td><td>$27.87B</td><td>$23.95B</td><td>$29.93B</td></tr><tr class=""><td class="metric-label">Capital Expenditures</td><td>-$2.37B</td><td>-$3.24B</td><td>-$3.46B</td><td>-$3.07B</td><td>-$2.94B</td></tr><tr class="highlight"><td class="metric-label">Free Cash Flow</td><td>$51.55B</td><td>$26.49B</td><td>$24.41B</td><td>$20.88B</td><td>$27.00B</td></tr><tr><td class="metric-label">FCF Margin %</td><td>35.9%</td><td>25.8%</td><td>26.0%</td><td>21.9%</td><td>21.7%</td></tr><tr><td class="metric-label">CapEx % Revenue</td><td>-1.7%</td><td>-3.2%</td><td>-3.7%</td><td>-3.2%</td><td>-2.4%</td></tr><tr class=""><td class="metric-label">D&A</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody>
+  </table>
+
+  <h2>Share Repurchases & Dividends (Quarterly)</h2>
+  <table class="data-table">
+    <thead><tr><th class="metric-label">Metric</th><th>2025-12</th><th>2025-09</th><th>2025-06</th><th>2025-03</th><th>2024-12</th></tr></thead>
+    <tbody><tr class=""><td class="metric-label">Share Repurchases</td><td>-$24.70B</td><td>-$20.13B</td><td>-$21.07B</td><td>-$25.90B</td><td>-$23.61B</td></tr><tr class=""><td class="metric-label">Dividends Paid</td><td>-$3.92B</td><td>-$3.86B</td><td>-$3.94B</td><td>-$3.76B</td><td>-$3.86B</td></tr><tr class="highlight"><td class="metric-label">Total Shareholder Return</td><td>$28.62B</td><td>$23.99B</td><td>$25.02B</td><td>$29.66B</td><td>$27.46B</td></tr><tr><td class="metric-label">TSR % FCF</td><td>55.5%</td><td>90.6%</td><td>102.5%</td><td>142.0%</td><td>101.7%</td></tr></tbody>
+  </table>
+
+  <h2>Leverage & Balance Sheet (Quarterly)</h2>
+  <table class="data-table">
+    <thead><tr><th class="metric-label">Metric</th><th>2025-12</th><th>2025-09</th><th>2025-06</th><th>2025-03</th><th>2024-12</th></tr></thead>
+    <tbody><tr class=""><td class="metric-label">Cash & Equivalents</td><td>$45.32B</td><td>$35.93B</td><td>$36.27B</td><td>$28.16B</td><td>$30.30B</td></tr><tr class=""><td class="metric-label">Total Debt</td><td>$90.51B</td><td>$98.66B</td><td>$101.70B</td><td>$98.19B</td><td>$96.80B</td></tr><tr class=""><td class="metric-label">EBITDA</td><td>$54.07B</td><td>$35.55B</td><td>$31.03B</td><td>$32.25B</td><td>$45.91B</td></tr></tbody>
+  </table>
+
+  <h2>Reinvestment Assessment (R&D + CapEx)</h2>
+  <table class="data-table">
+    <thead><tr><th class="metric-label">Metric</th><th>2025-12</th><th>2025-09</th><th>2025-06</th><th>2025-03</th><th>2024-12</th></tr></thead>
+    <tbody><tr class=""><td class="metric-label">R&D Expense</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td class="metric-label">R&D % Revenue</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr class=""><td class="metric-label">CapEx</td><td>-$2.37B</td><td>-$3.24B</td><td>-$3.46B</td><td>-$3.07B</td><td>-$2.94B</td></tr><tr><td class="metric-label">CapEx % Revenue</td><td>-1.7%</td><td>-3.2%</td><td>-3.7%</td><td>-3.2%</td><td>-2.4%</td></tr><tr class=""><td class="metric-label">Revenue</td><td>$143.76B</td><td>$102.47B</td><td>$94.04B</td><td>$95.36B</td><td>$124.30B</td></tr></tbody>
+  </table>
+  <div class="verdict">
+    ⚠️ <strong>Reinvestment verdict:</strong> Review R&D % Revenue and CapEx % Revenue trends above.
+    If both are declining while TSR is at record highs, the company may be funding returns
+    by underinvesting in long-term competitiveness.
+  </div>
+
+  <h2>SEC Filings — Capital Allocation Context</h2>
+  <p style="font-size:11px; color: var(--ink-faint); margin-bottom:10px;">
+    Search these filings for: "repurchase program", "dividend policy", "capital allocation", "authorization"
+  </p>
+  <a href="https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/" target="_blank" class="filing-link">10-K — 2025-10-31</a><a href="https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/" target="_blank" class="filing-link">10-K — 2024-11-01</a><a href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000006/" target="_blank" class="filing-link">10-Q — 2026-01-30</a><a href="https://www.sec.gov/Archives/edgar/data/320193/000032019325000073/" target="_blank" class="filing-link">10-Q — 2025-08-01</a><a href="https://www.sec.gov/Archives/edgar/data/320193/000032019325000057/" target="_blank" class="filing-link">10-Q — 2025-05-02</a><a href="https://www.sec.gov/Archives/edgar/data/320193/000032019325000008/" target="_blank" class="filing-link">10-Q — 2025-01-31</a>
+
+  <div class="footer">
+    Data: yFinance / SEC EDGAR · Generated February 28, 2026 · Not investment advice.
+  </div>
+
+</div>
+</body>
+</html>
