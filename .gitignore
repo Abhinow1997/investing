@@ -36,14 +36,6 @@ wheels/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Generated reports (each analyst generates their own)
-reports/*.md
-reports/*.docx
-reports/*.xlsx
-reports/.charts/
-reports/.tmp/
-!reports/.gitkeep
-
 # Log files
 logs/*.log
 !logs/.gitkeep
